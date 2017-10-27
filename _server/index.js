@@ -31,7 +31,7 @@ socket.on('disconnect', function(){
 socket.on("newpixel", function(newPixel){
     console.log(pixels);
     pixels.push(newPixel);
-    socket.emit("update", newPixel);
+    io.sockets.emit("update", newPixel);
 });
 
 
