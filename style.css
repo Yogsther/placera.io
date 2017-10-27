@@ -34,11 +34,24 @@ h1 {
   float: left;
 }
 
+#buttonbox {
+  position: absolute;
+  width: 280px
+}
+
+button {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  margin: 4px;
+  border: 0;
+}
+
 #chatbox {
   position: relative;
   background-color: #444;
   width: 25%;
-  float: left;
+  float: right;
   height: 900px;
 }
 
@@ -47,4 +60,28 @@ h1 {
   position: relative;
   display: block;
   topt: -10px;
+}
+
+#black {
+  background-color: black;
+}
+
+#gray {
+  background-color: gray;
+}
+
+#white {
+  background-color: white;
+}
+
+#red {
+  background-color: red;
+}
+
+#green {
+  background-color: green;
+}
+
+#blue {
+  background-color: blue;
 }
