@@ -48,3 +48,22 @@ h1 {
   display: block;
   topt: -10px;
 }
+
+#palette{
+  position: absolute;
+  height: 200px;
+  width: 100px;
+  background: blue;
+  left: 0px;
+  top: 0px;
+
+}
+
+.palette_button{
+
+  height: 50px;
+  width: 50px;
+  border-radius: 5px;
+  position: relative;;
+
+}

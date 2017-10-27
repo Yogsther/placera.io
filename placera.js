@@ -11,6 +11,11 @@ var pixels = [];
 var mouseX;
 var mouseY;
 
+
+var color = "black";
+
+
+
 function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
         return {
@@ -58,9 +63,6 @@ function update(){
 
   ctx.fillStyle = "rgba(0,0,0,.5)";
   ctx.fillRect(mouseX, mouseY, 10, 10);
-
-  console.log("update");
-
 }
 
 // Place pixels user
@@ -75,7 +77,7 @@ canvas.addEventListener("click", function(){
   var  newPixel = {
     x: mouseX,
     y: mouseY,
-    color: "black"
+    color: color
   };
 
   socket.emit("newpixel", newPixel);
