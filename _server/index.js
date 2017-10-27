@@ -1,18 +1,25 @@
-var app = require('http').createServer(handler)
-var io = require('socket.io')(app);
-var fs = require('fs');
+var express = require("express");
+var socket = require("socket.io");
+var app = express();
+var fs = require("fs");
+var path = require('path');
 
-app.listen(8080);
+var server = app.listen(8080, function(){
+  console.log("Listening to requests on port 25565");
+});
 
-function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
+app.use(express.static("public"))
 
-    res.writeHead(200);
-    res.end(data);
+var io = socket(server);
+
+
+io.on("connection", function(socket){
+  console.log("User connected");
+
+socket.on('disconnect', function(){
+  console.log("User disconnected");
+
+
   });
-}
+
+});

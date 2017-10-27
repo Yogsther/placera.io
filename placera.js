@@ -1,4 +1,7 @@
 
+// Socket.io
+var socket = io.connect("http://localhost:8080");
+
 // Setup canvas
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
