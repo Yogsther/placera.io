@@ -4,8 +4,8 @@ var app = express();
 var fs = require("fs");
 var path = require('path');
 
-var server = app.listen(8080, function(){
-  console.log("Listening to requests on port 25565");
+var server = app.listen(3074, function(){
+  console.log("Listening to requests on port 3074");
 });
 
 app.use(express.static("public"))
@@ -34,6 +34,8 @@ socket.on("newpixel", function(newPixel){
     pixels.push(newPixel);
     socket.emit("update", newPixel);
 });
+
+
 
 
 });
