@@ -4,6 +4,7 @@ var app = express();
 var fs = require("fs");
 var path = require('path');
 
+
 var server = app.listen(3074, function(){
   console.log("Listening to requests on port 3074");
 });
@@ -20,22 +21,18 @@ io.on("connection", function(socket){
   io.sockets.connected[socket.id].emit("cache", pixels);
 
 
-
-
 socket.on('disconnect', function(){
   console.log("User disconnected");
   });
 
 
-  // Placera.io handler
+// Placera.io handler
 
 socket.on("newpixel", function(newPixel){
     console.log(pixels);
     pixels.push(newPixel);
     socket.emit("update", newPixel);
 });
-
-
 
 
 });
