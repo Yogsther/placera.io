@@ -46,10 +46,10 @@ function update(){
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  mouseX = Math.round(mouseX / 10);
+  mouseX = Math.floor(mouseX / 10);
   mouseX = mouseX * 10;
 
-  mouseY = Math.round(mouseY / 10);
+  mouseY = Math.floor(mouseY / 10);
   mouseY = mouseY * 10;
 
 

@@ -15,6 +15,7 @@ var io = socket(server);
 
 // Pixels cache
 var pixels = [];
+//fsPixelsRead();
 
 io.on("connection", function(socket){
   console.log("User connected");
@@ -32,7 +33,26 @@ socket.on("newpixel", function(newPixel){
     console.log(pixels);
     pixels.push(newPixel);
     io.sockets.emit("update", newPixel);
+    fsPixelsSave();
 });
 
 
 });
+// Get saved pixels from .txt file
+function fsPixelsRead(){
+    var readPixel = fs.readFileSync("placera.txt");
+    var pixelArr = readPixel.toString().split(",");
+
+    var i = 0;
+    while(i < pixelArr.length){
+      console.log("TEST: "+pixelArr[i]);
+      var pushMe = JSON.parse(pixelArr[i]);
+      pixels.push(pushMe);
+    }
+}
+
+function fsPixelsSave(){
+  //var saveMe = pixels.join(",");
+  var saveMe = saveMe.toString();
+  fs.writeFileSync("placera.txt", saveMe);
+}
