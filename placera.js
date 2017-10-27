@@ -1,6 +1,6 @@
 
 // Socket.io
-var socket = io.connect("http://213.66.254.63:3074");
+var socket = io.connect('http://213.66.254.63:3074', {secure: true});
 
 // Setup canvas
 var canvas = document.getElementById("canvas");
