@@ -28,6 +28,8 @@ canvas.addEventListener('mousemove', function(evt) {
 // Run
 setInterval(update, 16);
 
+// Hide cursor?
+//document.body.style.cursor = 'none';
 
 
 
@@ -45,7 +47,7 @@ function update(){
   mouseX = mouseX * 10;
   mouseY = mouseY * 10;
 
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "rgba(0,0,0,.5)";
   ctx.fillRect(mouseX, mouseY, 10, 10);
 
   console.log("update");
