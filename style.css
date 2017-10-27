@@ -50,20 +50,52 @@ h1 {
 }
 
 #palette{
+  margin: 10px;
   position: absolute;
   height: 200px;
-  width: 100px;
-  background: blue;
+  width: 250px;
   left: 0px;
   top: 0px;
 
 }
 
-.palette_button{
+button{
+  background: white;
+  margin: 2px;
+  height: 55px;
+  width: 55px;
+  border: 0;
+  position: relative;
+}
 
-  height: 50px;
-  width: 50px;
-  border-radius: 5px;
-  position: relative;;
+#black {
+  background: black;
+}
 
+#gray {
+  background: gray;
+}
+
+#lightgray {
+  background: lightgray;
+}
+
+#white {
+  background: white;
+}
+
+#red {
+  background: red;
+}
+
+#green {
+  background: green;
+}
+
+#blue {
+  background: blue;
+}
+
+#pink {
+  background: pink;
 }

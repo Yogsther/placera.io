@@ -14,7 +14,9 @@ var mouseY;
 
 var color = "black";
 
-
+function setColor(newColor) {
+  color = newColor;
+}
 
 function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
