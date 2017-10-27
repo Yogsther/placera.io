@@ -1,9 +1,0 @@
-{
-  "name": "placera.io",
-  "version": "0.1",
-  "description": "Bootleg r/place",
-  "dependencies": {
-    "express": "^4.15.2",
-    "socket.io": "^2.0.4"
-  }
-}
