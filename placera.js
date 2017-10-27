@@ -3,7 +3,8 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-
+var mouseX;
+var mouseY;
 
 function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
@@ -13,31 +14,40 @@ function getMousePos(canvas, evt) {
         };
       }
 
-canvas.addEventListener('mousemove', function(evt) {
 
+canvas.addEventListener('mousemove', function(evt) {
 
       var mousePos = getMousePos(canvas, evt);
 
-      ctx.fillStyle = "blue";
-      ctx.fillRect(mousePos.x, mousePos.y, 10, 10);
-
+      mouseX = mousePos.x;
+      mouseY = mousePos.y;
       // mousePos.x + mousePos.y
 }, false);
 
 
-
-
-
-
-
-
 // Run
-setInterval(update(), 16);
+setInterval(update, 16);
 
-ctx.fillStyle = "white";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
 
 function update(){
 
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  mouseX = mouseX / 10;
+  mouseY = mouseY / 10;
+
+  mouseX = Math.floor(mouseX);
+  mouseY = Math.floor(mouseY);
+
+  mouseX = mouseX * 10;
+  mouseY = mouseY * 10;
+
+  ctx.fillStyle = "black";
+  ctx.fillRect(mouseX, mouseY, 10, 10);
+
+  console.log("update");
 
 }
