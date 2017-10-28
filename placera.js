@@ -2,16 +2,30 @@
 // Socket.io
 var socket = io.connect('http://213.66.254.63:3074', {secure: true});
 
+getID();
+
+// Generate ID
+function getID(){
+  if(localStorage.id == null){
+    console.log("hi.");
+  }
+
+
+}
+
+
+
 // Setup canvas
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+
+var overlay = document.getElementById("overlay");
+var ctxOverlay = overlay.getContext("2d");
 
 var pixels = [];
 
 var mouseX;
 var mouseY;
-
-
 
 var color = "34, 34, 34";
 var lastColor;
@@ -55,7 +69,19 @@ function getMousePos(canvas, evt) {
       }
 
 
-canvas.addEventListener('mousemove', function(evt) {
+overlay.addEventListener('mousemove', function(evt) {
+  // TODO draw cursor on new canvas
+
+ctxOverlay.clearRect(0, 0, canvas.width, canvas.height);
+
+mouseX = Math.floor(mouseX / 10);
+mouseX = mouseX * 10;
+
+mouseY = Math.floor(mouseY / 10);
+mouseY = mouseY * 10;
+
+ctxOverlay.fillStyle = "rgba(" + color + ",.6)";
+ctxOverlay.fillRect(mouseX, mouseY, 10, 10);
 
       var mousePos = getMousePos(canvas, evt);
       mouseX = mousePos.x -1;
@@ -63,8 +89,9 @@ canvas.addEventListener('mousemove', function(evt) {
       // mousePos.x + mousePos.y
 }, false);
 
+
 // Run
-setInterval(update, 16);
+//setInterval(update, 16);
 
 
 // Hide cursor?
@@ -85,23 +112,16 @@ function runTimelapse(){
     pixels.push(allPixels[pos]);
     setTimeout(runTimelapse,lapseTime);
     pos = pos + 1;
+    drawCache();
   }
 }
 
+drawCache();
 
-
-function update(){
+function drawCache(){
 
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  mouseX = Math.floor(mouseX / 10);
-  mouseX = mouseX * 10;
-
-  mouseY = Math.floor(mouseY / 10);
-  mouseY = mouseY * 10;
-
-
 
   var i = 0;
   while(i < pixels.length){
@@ -110,13 +130,11 @@ function update(){
     i++;
   }
 
-  ctx.fillStyle = "rgba(" + color + ",.6)";
-  ctx.fillRect(mouseX, mouseY, 10, 10);
 }
 
-// Place pixels user
-canvas.addEventListener("click", function(){
 
+// Place pixels user
+overlay.addEventListener("click", function(){
   mouseX = Math.round(mouseX / 10);
   mouseX = mouseX * 10;
 
@@ -128,18 +146,24 @@ canvas.addEventListener("click", function(){
     y: mouseY,
     color: color
   };
-
+  console.log(newPixel);
   socket.emit("newpixel", newPixel);
 
 });
 
+
+var updatePixel;
 // Update on new pixel
 socket.on("update", function(pixel){
-  pixels.push(pixel);
+  ctx.fillStyle = "rgb(" + pixel.color + ")";
+  ctx.fillRect(pixel.x, pixel.y, 10, 10);
 });
+
+
 
 socket.on("cache", function(allPixels){
   pixels = allPixels;
+  drawCache();
 });
 
 

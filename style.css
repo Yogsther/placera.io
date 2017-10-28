@@ -50,6 +50,16 @@ body{
   overflow: hidden;
 }
 
+#overlay{
+  z-index: 5;
+  position: absolute;
+  top: 10px;
+  left: 200px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+
 #palette{
   width: 160px;
   background: #262626;

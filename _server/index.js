@@ -21,6 +21,9 @@ io.on("connection", function(socket){
   console.log("User connected");
   io.sockets.connected[socket.id].emit("cache", pixels);
 
+  var client_ip_address = socket.request.connection.remoteAddress;
+
+  console.log(client_ip_address);
 
 socket.on('disconnect', function(){
 });
