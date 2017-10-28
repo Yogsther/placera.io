@@ -7,10 +7,11 @@ getID();
 // Generate ID
 function getID(){
   if(localStorage.id == null){
-    console.log("hi.");
+    var newID = Math.floor(Math.random() * 10000000000);
+    localStorage.setItem("id", newID)
+    console.log("Generated new ID");
   }
-
-
+  console.log("Welcome back! " + localStorage.id);
 }
 
 
@@ -69,8 +70,51 @@ function getMousePos(canvas, evt) {
       }
 
 
+overlay.addEventListener("mouseout", function(){
+  ctxOverlay.clearRect(0, 0, canvas.width, canvas.height);
+})
+
+var cooldownOver;
+var cooldownTime;
+var messages = ["Clear to doodle!", "Ready for art!", "Paint on!", "Clear!", "I'm ready!", "It's over :)", "Time over", "Place on!"];
+
+socket.on("cooldown", function(time){
+  console.log(time);
+  cooldownOver = false;
+  cooldownTime = time;
+  runCooldown();
+});
+
+function runCooldown(){
+  var now = Date.now();
+  if(cooldownTime > now){
+    var timeLeft = cooldownTime - now;
+    document.getElementById("cooldown").innerHTML = "Cooldown: " + (timeLeft/1000).toFixed(2) + "s";
+    setTimeout(runCooldown, 10);
+    return;
+  }
+  var message = messages[Math.floor(Math.random() * messages.length)];
+  document.getElementById("cooldown").innerHTML = message;
+  }
+
+clearCooldown();
+
+function clearCooldown(){
+  // Only run this on load to clear the coold down and insert a message.
+  var message = messages[Math.floor(Math.random() * messages.length)];
+  document.getElementById("cooldown").innerHTML = message;
+
+}
+
+
 overlay.addEventListener('mousemove', function(evt) {
   // TODO draw cursor on new canvas
+
+  var mousePos = getMousePos(canvas, evt);
+  mouseX = mousePos.x -1;
+  mouseY = mousePos.y -1;
+  // mousePos.x + mousePos.y
+
 
 ctxOverlay.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -83,10 +127,7 @@ mouseY = mouseY * 10;
 ctxOverlay.fillStyle = "rgba(" + color + ",.6)";
 ctxOverlay.fillRect(mouseX, mouseY, 10, 10);
 
-      var mousePos = getMousePos(canvas, evt);
-      mouseX = mousePos.x -1;
-      mouseY = mousePos.y -1;
-      // mousePos.x + mousePos.y
+
 }, false);
 
 
@@ -144,7 +185,8 @@ overlay.addEventListener("click", function(){
   var  newPixel = {
     x: mouseX,
     y: mouseY,
-    color: color
+    color: color,
+    id: localStorage.id
   };
   console.log(newPixel);
   socket.emit("newpixel", newPixel);
@@ -165,6 +207,3 @@ socket.on("cache", function(allPixels){
   pixels = allPixels;
   drawCache();
 });
-
-
-console.log("Hi fellow coder, want to see something cool? enter timelapse(1); in the console, and you'll see magic!");

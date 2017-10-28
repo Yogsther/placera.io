@@ -15,15 +15,15 @@ var io = socket(server);
 
 // Pixels cache
 var pixels = [];
+var cooldownList = [];
+var allowedColors = ["255, 255, 255", "228, 228, 228", "136, 136, 136", "34, 34, 34", "255, 167, 209", "229, 0, 0", "229, 149, 0", "160, 106, 66", "229, 217, 0", "148, 224, 68", "2, 190, 1", "0, 211, 221", "0, 131, 199", "0, 0, 234", "207, 110, 228", "130, 0, 128"];
+
 fsPixelsRead();
 
 io.on("connection", function(socket){
   console.log("User connected");
   io.sockets.connected[socket.id].emit("cache", pixels);
 
-  var client_ip_address = socket.request.connection.remoteAddress;
-
-  console.log(client_ip_address);
 
 socket.on('disconnect', function(){
 });
@@ -31,10 +31,20 @@ socket.on('disconnect', function(){
 
 // Placera.io handler
 
-var allowedColors = ["255, 255, 255", "228, 228, 228", "136, 136, 136", "34, 34, 34", "255, 167, 209", "229, 0, 0", "229, 149, 0", "160, 106, 66", "229, 217, 0", "148, 224, 68", "2, 190, 1", "0, 211, 221", "0, 131, 199", "0, 0, 234", "207, 110, 228", "130, 0, 128"];
 // Register new pixels
 socket.on("newpixel", function(newPixel){
   try{
+
+    if(isNaN(newPixel.id)){
+      console.log("Bad ID");
+      return;
+    }
+
+    if(cooldownList.indexOf(newPixel.id) != -1){
+      console.log("You have a cooldown.");
+      return;
+    }
+
     if(allowedColors.indexOf(newPixel.color) == -1){
       console.log("Bad color");
       console.log(newPixel.color)
@@ -42,14 +52,38 @@ socket.on("newpixel", function(newPixel){
       console.log(allowedColors[0]);
       return;
     }
-    pixels.push(newPixel);
-    io.sockets.emit("update", newPixel);
+
+    newPixelF = {
+      x: newPixel.x,
+      y: newPixel.y,
+      color: newPixel.color
+    };
+
+
+    // Add user to cooldown list
+    var newCooldownTime = Date.now() + 10000;
+    io.sockets.connected[socket.id].emit("cooldown", newCooldownTime);
+    cooldownList.push(newPixel.id);
+    console.log("Added to cooldownList: " + newPixel.id);
+    var timeoutFunction = function() { removeCooldown(newPixel.id); };
+    setTimeout(timeoutFunction, 10000);
+
+    pixels.push(newPixelF);
+    io.sockets.emit("update", newPixelF);
     fsPixelsSave();
   }catch(e){
     console.log(e);
     return;
   }
 });
+
+
+function removeCooldown(id){
+  var index = cooldownList.indexOf(id);
+  cooldownList.splice(index, 1);
+  console.log("Removed " + id + " from cooldownList");
+  console.log("cooldownList: " + cooldownList);
+}
 
 
 });

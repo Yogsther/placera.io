@@ -50,6 +50,21 @@ body{
   overflow: hidden;
 }
 
+#cooldown{
+  background-color: white;
+  height: 35px;
+  width: 150px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: ubuntu;
+  font-weight: 400;
+  position: absolute;
+  bottom: 00px;
+  left: 20px;
+  padding-top: 15px;
+}
+
+
 #overlay{
   z-index: 5;
   position: absolute;
