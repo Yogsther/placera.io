@@ -1,6 +1,6 @@
-![img](placera.png | width=100)
+![img](placera.png)
 
 
-Made during a LAN at NTI Ume�.
+Made during a LAN at NTI Umea.
 
 Bootleg r/place
