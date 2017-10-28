@@ -1,101 +1,45 @@
 body{
-  background: black;
-  margin: 0;
-  padding: 0;
+  background: #111;
 }
 
-header {
-  margin: 0;
-  padding: 2px;
-  background-color: #555;
+#img{
+  position: absolute;
+  left: -210px;
+  top: 10px;
 }
 
-img {
-  position: relative;
-  top: 2px;
-  margin: 0 8px;
-  width: 32px;
-  height: 36px;
-  float: left;
-}
-
-h1 {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  color: white;
-}
-
-#canvasbox {
-  position: relative;
-  margin: 0;
-  width: 75%;
-  background-color: #333;
-  float: left;
-}
-
-#chatbox {
-  position: relative;
-  background-color: #444;
-  width: 25%;
-  float: left;
-  height: 900px;
-}
-
-#canvas{
+#contain{
+  width: 1500px;
   margin: 0 auto;
   position: relative;
   display: block;
-  topt: -10px;
+}
+
+#canvas{
+
+  position: relative;
+  top: 10px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 #palette{
-  margin: 10px;
+  height: 640px;
+  width: 80px;
+  background: #262626;
   position: absolute;
-  height: 200px;
-  width: 250px;
-  left: 0px;
-  top: 0px;
-
+  left: -100px;
+  border-radius: 5px;
+  bottom: 105px;
+  padding: 5px;
 }
 
-button{
-  background: white;
-  margin: 2px;
-  height: 55px;
-  width: 55px;
-  border: 0;
+.colorPick{
   position: relative;
-}
-
-#black {
-  background: black;
-}
-
-#gray {
-  background: gray;
-}
-
-#lightgray {
-  background: lightgray;
-}
-
-#white {
-  background: white;
-}
-
-#red {
-  background: red;
-}
-
-#green {
-  background: green;
-}
-
-#blue {
+  height: 70px;
+  width: 70px;
+  margin: 5px;
+  border-radius: 2px;
+  border: none;
   background: blue;
-}
-
-#pink {
-  background: pink;
 }

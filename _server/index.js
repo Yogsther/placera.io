@@ -15,7 +15,7 @@ var io = socket(server);
 
 // Pixels cache
 var pixels = [];
-//fsPixelsRead();
+fsPixelsRead();
 
 io.on("connection", function(socket){
   console.log("User connected");
@@ -23,36 +23,52 @@ io.on("connection", function(socket){
 
 
 socket.on('disconnect', function(){
-  console.log("User disconnected");
-  });
+});
 
 
 // Placera.io handler
 
+var allowedColors = ["blue", "red", "white", "black"];
+// Register new pixels
 socket.on("newpixel", function(newPixel){
-    console.log(pixels);
+    try{
+    if(newPixel.color.indexOf(allowedColors) == -1){
+      console.log("Bad color");
+      return;
+    }
     pixels.push(newPixel);
     io.sockets.emit("update", newPixel);
     fsPixelsSave();
+  }catch(e){
+    console.log(e);
+    return;
+  }
 });
 
 
 });
 // Get saved pixels from .txt file
 function fsPixelsRead(){
-    var readPixel = fs.readFileSync("placera.txt");
-    var pixelArr = readPixel.toString().split(",");
+    var readPixel = fs.readFileSync("placera.txt", "utf8");
+    var pixelArr = readPixel.toString().split("|");
 
     var i = 0;
-    while(i < pixelArr.length){
-      console.log("TEST: "+pixelArr[i]);
+    while(i < pixelArr.length - 1){
       var pushMe = JSON.parse(pixelArr[i]);
       pixels.push(pushMe);
+      i++;
     }
+    console.log("Loaded pixels. " + pixelArr.length + " pixels.");
 }
 
 function fsPixelsSave(){
-  //var saveMe = pixels.join(",");
-  var saveMe = saveMe.toString();
-  fs.writeFileSync("placera.txt", saveMe);
+  var saveArr = [];
+  var i = 0;
+  while(i < pixels.length){
+    var saveObj = JSON.stringify(pixels[i]);
+    saveArr.push(saveObj);
+    i++;
+  }
+  saveArr = saveArr.join("|");
+  fs.writeFileSync("placera.txt", saveArr, "utf8")
 }

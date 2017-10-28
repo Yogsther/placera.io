@@ -12,10 +12,29 @@ var mouseX;
 var mouseY;
 
 
-var color = "black";
 
-function setColor(newColor) {
+var color = "0,0,0";
+
+function changeColor(newColor){
   color = newColor;
+  console.log(color);
+}
+
+
+var palette = ["0,0,0", "170,0,0", "0,170,0", "170,85,0", "0,0,170", "170,0,170", "0,170,170", "170,170,170", "255,255,255"];
+
+generateButton();
+function generateButton(){
+  var i = 0;
+  while(palette.length > i){
+
+    var color = palette[i];
+    document.getElementById("palette").innerHTML += '<button type="button" id="' + palette[i] + '" class="colorPick" onclick="changeColor(this.id)" style="background-color: rgb(' + palette[i] + ')"></button>';
+    i++;
+  }
+
+
+
 }
 
 function getMousePos(canvas, evt) {
@@ -63,7 +82,7 @@ function update(){
     i++;
   }
 
-  ctx.fillStyle = "rgba(0,0,0,.5)";
+  ctx.fillStyle = "rgba(" + color + ",.6)";
   ctx.fillRect(mouseX, mouseY, 10, 10);
 }
 
