@@ -1,3 +1,5 @@
-![img](https://imgur.com/wmEyMoK.png)
+![img](placera.png)
+
+Made during a LAN at NTI Umeå.
 
 Bootleg r/place
