@@ -4,7 +4,6 @@ body{
 
 #logo{
   position: absolute;
-  left: -200px;
   top: 10px;
 }
 
@@ -31,6 +30,7 @@ body{
 #canvas{
   position: relative;
   top: 10px;
+  left: 200px;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -39,7 +39,7 @@ body{
   width: 160px;
   background: #262626;
   position: absolute;
-  left: -190px;
+  left: 10px;
   border-radius: 5px;
   bottom: 120px;
   padding: 5px;
