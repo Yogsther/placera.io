@@ -1,3 +1,23 @@
+::selection {
+  background: white;
+}
+
+
+/* Link atrebutes, change color of links */
+
+a:link{
+    color: white;
+}
+
+a:visited{
+    color: white;
+}
+
+a:hover{
+    color: white;
+}
+
+
 body{
   background: #111;
 }
@@ -8,17 +28,12 @@ body{
 }
 
 #img{
-  height: 50px;
+  height: 90px;
+  position: absolute;
+  top: -15px;
+  left: -15px;
 }
 
-#logotext{
-  position: absolute;
-  left: 48px;
-  bottom: -22px;
-  color: white;
-  font-size: 32px;
-  font-family: sans-serif;
-}
 
 #contain{
   width: 1500px;
@@ -41,7 +56,7 @@ body{
   position: absolute;
   left: 10px;
   border-radius: 5px;
-  bottom: 120px;
+  bottom: 110px;
   padding: 5px;
 }
 
@@ -53,4 +68,36 @@ body{
   border-radius: 2px;
   border: none;
   background: blue;
+}
+
+.colorPick:focus{
+outline: 5px solid white;
+}
+
+#timelapse{
+  position: absolute;
+  bottom: -50px;
+  right: 50px;
+}
+#timelapse:hover{
+  bottom: -48px;
+}
+#timelapse:active{
+  bottom: -52px;
+}
+
+.btn{
+  height: 30px;
+  width: 150px;
+  border: none;
+  background: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#about{
+  position: absolute;
+  bottom: 82px;
+  left: 70px;
+  font-family: 'Muli', sans-serif;
 }

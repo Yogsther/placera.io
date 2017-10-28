@@ -13,11 +13,13 @@ var mouseY;
 
 
 
-var color = "0,0,0";
+var color = "34, 34, 34";
+var lastColor;
 
 function changeColor(newColor){
   color = newColor;
-  console.log(color);
+  focusPalette();
+
 }
 
 
@@ -26,17 +28,23 @@ var palette = ["255, 255, 255", "228, 228, 228", "136, 136, 136", "34, 34, 34", 
 generateButton();
 function generateButton(){
   var i = 0;
-  console.log(palette.length)
   while(palette.length > i){
 
     var color = palette[i];
     document.getElementById("palette").innerHTML += '<button type="button" id="' + palette[i] + '" class="colorPick" onclick="changeColor(this.id)" style="background-color: rgb(' + palette[i] + ')"></button>';
     i++;
   }
-
-
-
 }
+
+focusPalette();
+
+function focusPalette(){
+  if(lastColor != null){
+  document.getElementById(lastColor).style.outline = "0px solid white";}
+  document.getElementById(color).style.outline = "5px solid white";
+  lastColor = color;
+}
+
 
 function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
@@ -61,6 +69,25 @@ setInterval(update, 16);
 
 // Hide cursor?
 //document.body.style.cursor = 'none';
+var allPixels = pixels;
+var pos = 0;
+var lapseTime;
+function timelapse(time){
+  allPixels = pixels;
+  pixels = [];
+  pos = 0;
+  runTimelapse();
+  lapseTime = time;
+}
+
+function runTimelapse(){
+  if(allPixels.length > pos){
+    pixels.push(allPixels[pos]);
+    setTimeout(runTimelapse,lapseTime);
+    pos = pos + 1;
+  }
+}
+
 
 
 function update(){
@@ -114,3 +141,6 @@ socket.on("update", function(pixel){
 socket.on("cache", function(allPixels){
   pixels = allPixels;
 });
+
+
+console.log("Hi fellow coder, want to see something cool? enter timelapse(1); in the console, and you'll see magic!");
