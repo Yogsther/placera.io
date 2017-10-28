@@ -1,4 +1,4 @@
-![img](placera.png | width=100)
+![](placera.png | width=100)
 
 
 Made during a LAN at NTI Ume�.
