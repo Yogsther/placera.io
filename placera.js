@@ -77,7 +77,7 @@ function update(){
 
   var i = 0;
   while(i < pixels.length){
-    ctx.fillStyle = pixels[i].color;
+    ctx.fillStyle = "rgb(" + pixels[i].color + ")";
     ctx.fillRect(pixels[i].x, pixels[i].y, 10, 10);
     i++;
   }

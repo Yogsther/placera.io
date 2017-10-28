@@ -28,12 +28,15 @@ socket.on('disconnect', function(){
 
 // Placera.io handler
 
-var allowedColors = ["blue", "red", "white", "black"];
+var allowedColors = ["0,0,0", "170,0,0", "0,170,0", "170,85,0", "0,0,170", "170,0,170", "0,170,170", "170,170,170", "255,255,255"];
 // Register new pixels
 socket.on("newpixel", function(newPixel){
     try{
-    if(newPixel.color.indexOf(allowedColors) == -1){
+    if(allowedColors.indexOf(newPixel.color) == -1){
       console.log("Bad color");
+      console.log(newPixel.color)
+      console.log(newPixel.color.indexOf(allowedColors))
+      console.log(allowedColors[0]);
       return;
     }
     pixels.push(newPixel);
