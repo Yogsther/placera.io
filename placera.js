@@ -14,6 +14,8 @@ function getID(){
   console.log("Welcome back! " + localStorage.id);
 }
 
+// Initiate some stuff
+document.getElementById("timelapse_speed").value = 1;
 
 
 // Setup canvas
@@ -72,11 +74,35 @@ function getMousePos(canvas, evt) {
 
 overlay.addEventListener("mouseout", function(){
   ctxOverlay.clearRect(0, 0, canvas.width, canvas.height);
+  drawGridVert();
+  drawGridHor();
+
 })
+
+drawGridVert();
+drawGridHor();
+
+function drawGridVert(){
+  i = 0;
+  while(i < canvas.width){
+    ctxOverlay.fillStyle = "rgba(0,0,0,0.05)";
+    ctxOverlay.fillRect(i, 0, 2, canvas.height);
+    i = i+10;
+  }
+}
+
+function drawGridHor(){
+  i = 0;
+  while(i < canvas.height){
+    ctxOverlay.fillStyle = "rgba(0,0,0,0.05)";
+    ctxOverlay.fillRect(0, i, canvas.width, 2);
+    i = i+10;
+  }
+}
 
 var cooldownOver;
 var cooldownTime;
-var messages = ["Clear to doodle!", "Ready for art!", "Paint on!", "Clear!", "I'm ready!", "It's over :)", "Time over", "Place on!"];
+var messages = ["Clear to doodle!", "Ready for art!", "Paint on!", "Clear!", "I'm ready!", "It's over :)", "Time over", "Place on!", "You are now cool.", "BOI"];
 
 socket.on("cooldown", function(time){
   console.log(time);
@@ -89,15 +115,13 @@ function runCooldown(){
   var now = Date.now();
   if(cooldownTime > now){
     var timeLeft = cooldownTime - now;
-    document.getElementById("cooldown").innerHTML = "Cooldown: " + (timeLeft/1000).toFixed(2) + "s";
-    setTimeout(runCooldown, 10);
+    document.getElementById("cooldown").innerHTML = "Cooldown: " + (timeLeft/1000).toFixed(1) + "s";
+    setTimeout(runCooldown, 100);
     return;
   }
   var message = messages[Math.floor(Math.random() * messages.length)];
   document.getElementById("cooldown").innerHTML = message;
   }
-
-clearCooldown();
 
 function clearCooldown(){
   // Only run this on load to clear the coold down and insert a message.
@@ -108,25 +132,27 @@ function clearCooldown(){
 
 
 overlay.addEventListener('mousemove', function(evt) {
-  // TODO draw cursor on new canvas
 
   var mousePos = getMousePos(canvas, evt);
   mouseX = mousePos.x -1;
   mouseY = mousePos.y -1;
   // mousePos.x + mousePos.y
 
-
 ctxOverlay.clearRect(0, 0, canvas.width, canvas.height);
 
 mouseX = Math.floor(mouseX / 10);
-mouseX = mouseX * 10;
-
 mouseY = Math.floor(mouseY / 10);
+
+document.getElementById("coordinates").innerHTML = "X: " + (mouseX+1) + " Y: " + (mouseY+1);
+
+mouseX = mouseX * 10;
 mouseY = mouseY * 10;
 
 ctxOverlay.fillStyle = "rgba(" + color + ",.6)";
 ctxOverlay.fillRect(mouseX, mouseY, 10, 10);
 
+drawGridVert();
+drawGridHor();
 
 }, false);
 
@@ -139,21 +165,25 @@ ctxOverlay.fillRect(mouseX, mouseY, 10, 10);
 //document.body.style.cursor = 'none';
 var allPixels = pixels;
 var pos = 0;
-var lapseTime;
-function timelapse(time){
+var userSpeed;
+function timelapse(){
+  userSpeed = document.getElementById("timelapse_speed").value;
   allPixels = pixels;
   pixels = [];
   pos = 0;
   runTimelapse();
-  lapseTime = time;
 }
 
 function runTimelapse(){
   if(allPixels.length > pos){
     pixels.push(allPixels[pos]);
-    setTimeout(runTimelapse,lapseTime);
     pos = pos + 1;
     drawCache();
+    var i = 0;
+    while(i < userSpeed){
+        setTimeout(runTimelapse, 0.1);
+        i++;
+    }
   }
 }
 

@@ -13,6 +13,8 @@ app.use(express.static("public"))
 
 var io = socket(server);
 
+// Enable or Disable cooldown
+var cooldownEnabled = false;
 // Pixels cache
 var pixels = [];
 var cooldownList = [];
@@ -41,15 +43,12 @@ socket.on("newpixel", function(newPixel){
     }
 
     if(cooldownList.indexOf(newPixel.id) != -1){
-      console.log("You have a cooldown.");
+
       return;
     }
 
     if(allowedColors.indexOf(newPixel.color) == -1){
       console.log("Bad color");
-      console.log(newPixel.color)
-      console.log(newPixel.color.indexOf(allowedColors))
-      console.log(allowedColors[0]);
       return;
     }
 
@@ -61,12 +60,15 @@ socket.on("newpixel", function(newPixel){
 
 
     // Add user to cooldown list
+
+    if(cooldownEnabled){
     var newCooldownTime = Date.now() + 10000;
     io.sockets.connected[socket.id].emit("cooldown", newCooldownTime);
     cooldownList.push(newPixel.id);
-    console.log("Added to cooldownList: " + newPixel.id);
+
     var timeoutFunction = function() { removeCooldown(newPixel.id); };
     setTimeout(timeoutFunction, 10000);
+    }
 
     pixels.push(newPixelF);
     io.sockets.emit("update", newPixelF);
@@ -81,8 +83,6 @@ socket.on("newpixel", function(newPixel){
 function removeCooldown(id){
   var index = cooldownList.indexOf(id);
   cooldownList.splice(index, 1);
-  console.log("Removed " + id + " from cooldownList");
-  console.log("cooldownList: " + cooldownList);
 }
 
 
