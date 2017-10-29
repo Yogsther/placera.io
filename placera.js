@@ -36,7 +36,6 @@ var lastColor;
 function changeColor(newColor){
   color = newColor;
   focusPalette();
-
 }
 
 
@@ -165,9 +164,7 @@ drawGridHor();
 //document.body.style.cursor = 'none';
 var allPixels = pixels;
 var pos = 0;
-var userSpeed;
 function timelapse(){
-  userSpeed = document.getElementById("timelapse_speed").value;
   allPixels = pixels;
   pixels = [];
   pos = 0;
@@ -175,16 +172,17 @@ function timelapse(){
 }
 
 function runTimelapse(){
-  if(allPixels.length > pos){
-    pixels.push(allPixels[pos]);
-    pos = pos + 1;
-    drawCache();
-    var i = 0;
-    while(i < userSpeed){
-        setTimeout(runTimelapse, 0.1);
-        i++;
+  setTimeout(function () {
+
+    if(allPixels.length > pos){
+      pixels.push(allPixels[pos]);
+      pos = pos + 1;
+      drawCache();
+      var i = 0;
+      document.getElementById("timelapse_status").innerHTML = pixels.length + "/" + allPixels.length;
     }
-  }
+  }, 0.0001);
+  runTimelapse();
 }
 
 drawCache();

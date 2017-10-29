@@ -122,6 +122,7 @@ border-radius: 0px;
   position: absolute;
   bottom: -50px;
   right: 50px;
+  font-family: ubuntu;
 }
 #timelapse:hover{
   bottom: -48px;
@@ -138,6 +139,15 @@ border-radius: 0px;
   right: 205px;
   text-align: center;
   font-family: ubuntu;
+}
+
+#timelapse_status{
+  position: absolute;
+  color: white;
+  font-family: ubuntu;
+  bottom: -43px;
+  right: 270px;
+  text-align: right;
 }
 
 .btn{

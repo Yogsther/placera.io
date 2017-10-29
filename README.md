@@ -8,6 +8,10 @@ Made during a LAN at NTI Umea.
 
 Bootleg r/place
 
+v.2.1
+- Added grid
+- (Added zoom function)
+
 v.2
 - Cooldown time added (10sec) with server-side protection.
 - Optimized canvas render. Only render on new pixel with separate canvas for
