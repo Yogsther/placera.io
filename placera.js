@@ -14,8 +14,6 @@ function getID(){
   console.log("Welcome back! " + localStorage.id);
 }
 
-// Initiate some stuff
-document.getElementById("timelapse_speed").value = 1;
 
 
 // Setup canvas
@@ -29,6 +27,8 @@ var pixels = [];
 
 var mouseX;
 var mouseY;
+
+
 
 var color = "34, 34, 34";
 var lastColor;
@@ -75,8 +75,8 @@ overlay.addEventListener("mouseout", function(){
   ctxOverlay.clearRect(0, 0, canvas.width, canvas.height);
   drawGridVert();
   drawGridHor();
-
 })
+
 
 drawGridVert();
 drawGridHor();
@@ -104,14 +104,15 @@ var cooldownTime;
 var messages = ["Clear to doodle!", "Ready for art!", "Paint on!", "Clear!", "I'm ready!", "It's over :)", "Time over", "Place on!", "You are now cool.", "BOI"];
 
 socket.on("cooldown", function(time){
-  console.log(time);
   cooldownOver = false;
-  cooldownTime = time;
+  cooldownTime = Date.now() + time;
   runCooldown();
 });
 
 function runCooldown(){
   var now = Date.now();
+  console.log(now);
+  console.log(cooldownTime);
   if(cooldownTime > now){
     var timeLeft = cooldownTime - now;
     document.getElementById("cooldown").innerHTML = "Cooldown: " + (timeLeft/1000).toFixed(1) + "s";
@@ -122,12 +123,6 @@ function runCooldown(){
   document.getElementById("cooldown").innerHTML = message;
   }
 
-function clearCooldown(){
-  // Only run this on load to clear the coold down and insert a message.
-  var message = messages[Math.floor(Math.random() * messages.length)];
-  document.getElementById("cooldown").innerHTML = message;
-
-}
 
 
 overlay.addEventListener('mousemove', function(evt) {
@@ -161,28 +156,33 @@ drawGridHor();
 
 
 // Hide cursor?
-//document.body.style.cursor = 'none';
+
 var allPixels = pixels;
 var pos = 0;
+var startPoint = 0;
+
 function timelapse(){
   allPixels = pixels;
   pixels = [];
-  pos = 0;
+  pos = document.getElementById("timelapse_speed").value;
+  var l = 0;
+  while(l < pos){
+    pixels.push(allPixels[l]);
+    l++;
+  }
   runTimelapse();
+
 }
 
 function runTimelapse(){
-  setTimeout(function () {
-
-    if(allPixels.length > pos){
+  if(allPixels.length > pos){
+      pos++;
       pixels.push(allPixels[pos]);
-      pos = pos + 1;
       drawCache();
-      var i = 0;
       document.getElementById("timelapse_status").innerHTML = pixels.length + "/" + allPixels.length;
-    }
-  }, 0.0001);
-  runTimelapse();
+
+      setTimeout(runTimelapse,0.0001);
+  }
 }
 
 drawCache();
@@ -201,6 +201,12 @@ function drawCache(){
 
 }
 
+function saveImage(){
+  var dataURL = canvas.toDataURL();
+  console.log(dataURL);
+  window.location.href = dataURL;
+}
+
 
 // Place pixels user
 overlay.addEventListener("click", function(){
@@ -210,11 +216,18 @@ overlay.addEventListener("click", function(){
   mouseY = Math.round(mouseY / 10);
   mouseY = mouseY * 10;
 
+  var username = readCookie("username");
+  if(username == null){
+    username = "???";
+  }
+
+
   var  newPixel = {
     x: mouseX,
     y: mouseY,
     color: color,
-    id: localStorage.id
+    id: localStorage.id,
+    username: username
   };
   console.log(newPixel);
   socket.emit("newpixel", newPixel);
@@ -235,3 +248,14 @@ socket.on("cache", function(allPixels){
   pixels = allPixels;
   drawCache();
 });
+
+
+function readCookie(name) {
+    var nameEQ = name + "=", ca = document.cookie.split(';'), i = 0, c;
+    for(;i < ca.length;i++) {
+        c = ca[i];
+        while (c[0]==' ') c = c.substring(1);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length);
+    }
+    return null;
+}

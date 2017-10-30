@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>placera.io</title>
+    <title>Placera</title>
     <link rel="stylesheet" href="style.css">
     <!-- Socket.io-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
@@ -19,13 +19,12 @@
     <canvas id="canvas" width="1275" height="850"></canvas>
     <div id="palette">
 
-
-
     </div>
     <div id="coordinates">X: 0 Y: 0 </div>
     <div id="cooldown">Start drawing!</div>
+    <a href="javascript:saveImage()" id="save_link">Save Image</a>
     <span id="timelapse_status"></span>
-    <input type="text" id="timelapse_speed" title="Timelapse speed"/>
+    <input type="text" id="timelapse_speed" title="Timelapse starting point" placeholder="Start @"/>
     <button class="btn" id="timelapse" onclick="timelapse()">Timelapse!</button>
   </div>
   <script src="placera.js"></script>

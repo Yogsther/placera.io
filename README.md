@@ -4,13 +4,22 @@
 
 Check it out http://livingforit.xyz/placera/
 
+Bootleg r/place
 Made during a LAN at NTI Umea.
 
-Bootleg r/place
+
+
+
 
 v.2.1
 - Added grid
-- (Added zoom function)
+- Added coordinates
+- Cooldown out-of-sync bug fixed.
+- Changed cooldown time to 20s
+- Added Start @ option to Timelapse
+- Added "Save Image" link to save the canvas as a PNG.
+- Improved server-console log, now shows who placed a pixe, where and what
+color.
 
 v.2
 - Cooldown time added (10sec) with server-side protection.

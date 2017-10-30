@@ -5,6 +5,12 @@ var fs = require("fs");
 var path = require('path');
 
 
+// Enable or Disable cooldown
+var cooldownEnabled = true;
+// Cooldown time (ms)
+var cooldownTime = 20000;
+
+
 var server = app.listen(3074, function(){
   console.log("Listening to requests on port 3074");
 });
@@ -13,8 +19,6 @@ app.use(express.static("public"))
 
 var io = socket(server);
 
-// Enable or Disable cooldown
-var cooldownEnabled = false;
 // Pixels cache
 var pixels = [];
 var cooldownList = [];
@@ -23,9 +27,7 @@ var allowedColors = ["255, 255, 255", "228, 228, 228", "136, 136, 136", "34, 34,
 fsPixelsRead();
 
 io.on("connection", function(socket){
-  console.log("User connected");
   io.sockets.connected[socket.id].emit("cache", pixels);
-
 
 socket.on('disconnect', function(){
 });
@@ -38,7 +40,6 @@ socket.on("newpixel", function(newPixel){
   try{
 
     if(isNaN(newPixel.id)){
-      console.log("Bad ID");
       return;
     }
 
@@ -52,22 +53,25 @@ socket.on("newpixel", function(newPixel){
       return;
     }
 
+    var paletteTranslate = ["white", "grey", "dark grey", "black", "pink", "red", "orange", "brown", "yellow", "light green", "green", "turquoise", "blue", "dark blue", "dark pink", "purple"];
+    var colorPos = allowedColors.indexOf(newPixel.color);
+
+
+    // Log pixel in console
+    console.log(newPixel.username + " placed a " + paletteTranslate[colorPos] + " pixel @ " + newPixel.x + ", " + newPixel.y);
+
     newPixelF = {
       x: newPixel.x,
       y: newPixel.y,
       color: newPixel.color
     };
 
-
     // Add user to cooldown list
-
     if(cooldownEnabled){
-    var newCooldownTime = Date.now() + 10000;
-    io.sockets.connected[socket.id].emit("cooldown", newCooldownTime);
+    io.sockets.connected[socket.id].emit("cooldown", cooldownTime);
     cooldownList.push(newPixel.id);
-
     var timeoutFunction = function() { removeCooldown(newPixel.id); };
-    setTimeout(timeoutFunction, 10000);
+    setTimeout(timeoutFunction, 20000);
     }
 
     pixels.push(newPixelF);

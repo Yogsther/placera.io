@@ -132,23 +132,34 @@ border-radius: 0px;
 }
 
 #timelapse_speed{
-  height: 20px;
-  width: 30px;
+  height: 27.5px;
+  width: 90px;
   position: absolute;
-  bottom: -48px;
+  bottom: -50px;
   right: 205px;
   text-align: center;
   font-family: ubuntu;
+  border-radius: 4px;
+  border: none;
 }
 
 #timelapse_status{
   position: absolute;
   color: white;
   font-family: ubuntu;
-  bottom: -43px;
-  right: 270px;
+  bottom: -46px;
+  right: 310px;
   text-align: right;
 }
+
+#save_link{
+  position: absolute;
+  bottom: -35px;
+  left: 230px;
+  font-family: ubuntu;
+
+}
+
 
 .btn{
   height: 30px;
